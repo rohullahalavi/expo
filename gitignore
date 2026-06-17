@@ -1,0 +1,36 @@
+# Binaries
+zenith
+zenith.exe
+/zenith
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Test binary
+cmd/zenith-render-test/zenith-render-test
+
+# Test coverage
+*.out
+coverage.txt
+
+# Go workspace
+go.work
+go.work.sum
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# OS
+Thumbs.db
+
+# Logs
+*.log
+
+# Local config (don't commit your personal config)
+design.local.toml

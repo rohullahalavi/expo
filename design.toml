@@ -1,0 +1,241 @@
+# ============================================================================
+# Zenith Design Configuration
+# ============================================================================
+# This file is the master configuration for Zenith. Every visual aspect
+# of the app can be customized here.
+#
+# Load order (later overrides earlier):
+#   1. Built-in defaults (see internal/config/config.go)
+#   2. ~/.config/zenith/design.toml (user-level)
+#   3. ./design.toml (project-level, for development)
+#
+# All values are optional — missing fields fall back to defaults.
+# Invalid values are silently replaced with defaults (no crash).
+#
+# To reload this file at runtime, run the `:reload` command.
+# ============================================================================
+
+# ----------------------------------------------------------------------------
+# [layout] — Panel sizes and arrangement
+# ----------------------------------------------------------------------------
+# Panel widths come ONLY from these percentages. Content is always truncated
+# to fit, so the layout never shifts when a long filename appears.
+[layout]
+parent_ratio     = 20   # 0-100, percent of width for parent (left) pane
+current_ratio    = 30   # 0-100, percent for current (middle) pane
+preview_ratio    = 50   # 0-100, percent for preview (right) pane
+status_height    = 3    # lines tall for status bar
+header_height    = 1    # lines tall for header
+min_panel_width  = 10   # never go below this width
+gutter           = 1    # spaces between panels
+show_parent_pane = true # set false to hide the left pane
+show_preview_pane = true # set false to hide the right pane
+
+# ----------------------------------------------------------------------------
+# [theme] — Color palette
+# ----------------------------------------------------------------------------
+# Colors are hex strings (#RRGGBB). Empty strings fall back to defaults.
+[theme]
+name              = "dark"     # dark | light | cyberpunk (future)
+background        = "#0d1117"  # deep space black
+foreground        = "#e6edf3"  # off-white
+foreground_dim    = "#7d8590"  # secondary text
+foreground_subtle = "#484f58"  # tertiary text (separators, etc.)
+
+# Surface depth levels — create pseudo-3D elevation.
+# Lower = more recessed; higher = more elevated.
+surface_base     = "#0d1117"  # app background
+surface_sunken   = "#090d13"  # inactive panels
+surface_flat     = "#161b22"  # normal panels
+surface_raised   = "#1c2128"  # hovered items
+surface_overlay  = "#21262d"  # focused panel
+surface_floating = "#2d333b"  # modals, command palette
+
+# Accent and semantic colors.
+accent    = "#58a6ff"  # bright blue (links, active items)
+accent_dim = "#1f6feb" # dimmer blue (selection background)
+success   = "#3fb950"  # green (confirmations)
+warning   = "#d29922"  # amber (caution)
+danger    = "#f85149"  # red (errors)
+purple    = "#bc8cff"  # code, symlinks
+cyan      = "#39c5cf"  # images, info
+orange    = "#f0883e"  # clipboard, attention
+
+# File type colors (mapped from file extensions).
+file_type_directory = "#58a6ff"
+file_type_code      = "#bc8cff"
+file_type_image     = "#39c5cf"
+file_type_video     = "#f85149"
+file_type_audio     = "#d29922"
+file_type_archive   = "#3fb950"
+file_type_document  = "#e6edf3"
+file_type_config    = "#7d8590"
+file_type_hidden    = "#484f58"
+file_type_symlink   = "#bc8cff"
+file_type_text      = "#e6edf3"
+file_type_binary    = "#f85149"
+
+# ----------------------------------------------------------------------------
+# [icons] — File-type icons (Nerd Font preferred, emoji fallback)
+# ----------------------------------------------------------------------------
+[icons]
+enabled   = true   # set false to disable icons entirely
+nerd_font = true   # set false if your terminal doesn't have Nerd Font
+fallback  = "emoji" # "emoji" | "unicode" | "ascii" — used when nerd_font=false
+
+# Individual icon overrides (empty = use default for fallback mode).
+directory    = ""
+file_default = ""
+code         = ""
+config_file  = ""
+markdown     = ""
+image        = ""
+video        = ""
+audio        = ""
+archive      = ""
+document     = ""
+symlink      = ""
+git          = ""
+
+# ----------------------------------------------------------------------------
+# [cursor] — Cursor appearance and selection markers
+# ----------------------------------------------------------------------------
+[cursor]
+style         = "block"  # "block" | "bar" | "underline"
+blink         = false
+blink_rate    = 500      # milliseconds
+color         = "#58a6ff"
+selected_icon = "▶"      # shown on cursor line in active panel
+hover_icon    = "▸"      # shown on parent-pane item we came from
+select_dot    = "●"      # shown next to selected files
+
+# ----------------------------------------------------------------------------
+# [borders] — Panel border style
+# ----------------------------------------------------------------------------
+[borders]
+style          = "rounded"  # "rounded" | "sharp" | "double" | "thick" | "none"
+active_color   = "#58a6ff"
+inactive_color = "#30363d"
+width          = 1
+
+# ----------------------------------------------------------------------------
+# [status_bar] — Bottom status bar
+# ----------------------------------------------------------------------------
+# The status bar has 3 lines:
+#   1. Path + summary (items, size, selection)
+#   2. Mode + system (git, time, clipboard)
+#   3. Hints (context-aware key reminders)
+[status_bar]
+show_path          = true
+show_git           = true
+show_time          = true
+show_battery       = false  # macOS only (uses pmset)
+show_disk          = false
+show_clipboard     = true
+time_format        = "15:04:05"  # Go time format
+path_max_components = 3         # show last N path components when truncated
+hint_line          = true       # show the 3rd line with key hints
+
+# ----------------------------------------------------------------------------
+# [preview] — Right-side preview pane
+# ----------------------------------------------------------------------------
+[preview]
+max_line_length   = 200
+word_wrap         = false
+show_line_numbers = true
+syntax_theme      = "dark"
+max_file_size     = "10MB"
+show_metadata     = true
+scroll_step       = 1   # lines to scroll preview with J/K
+
+# ----------------------------------------------------------------------------
+# [search] — Fuzzy search and external tool integration
+# ----------------------------------------------------------------------------
+[search]
+fuzzy_algorithm   = "smith"  # "smith" | "fzf" | "skim" (only smith impl'd)
+case_sensitive    = false
+max_results       = 100
+highlight_matches = true
+fd_path           = "fd"     # path to fd binary
+rg_path           = "rg"     # path to ripgrep binary
+
+# ----------------------------------------------------------------------------
+# [behavior] — High-level app behavior
+# ----------------------------------------------------------------------------
+[behavior]
+confirm_delete    = true
+use_trash         = true     # false = permanent delete
+auto_preview      = true
+follow_symlinks   = false
+show_hidden       = false
+sort_by           = "name"   # "name" | "size" | "time" | "ext"
+sort_reverse      = false
+sort_dirs_first   = true
+remember_last_dir = true     # restore last dir on next launch
+
+# ----------------------------------------------------------------------------
+# [tabs] — Chrome-style tab system
+# ----------------------------------------------------------------------------
+[tabs]
+max_tabs              = 9
+show_close_button     = true
+new_tab_preserves_path = true
+
+# ----------------------------------------------------------------------------
+# [bookmarks] — Quick-jump directories
+# ----------------------------------------------------------------------------
+# Bookmarks added with `B` are saved to storage_path. Default bookmarks
+# are merged in if no bookmark with the same name exists.
+[[bookmarks.default_bookmarks]]
+name = "Home"
+path = "~"
+icon = "🏠"
+
+[[bookmarks.default_bookmarks]]
+name = "Desktop"
+path = "~/Desktop"
+icon = "🖥"
+
+[[bookmarks.default_bookmarks]]
+name = "Downloads"
+path = "~/Downloads"
+icon = "⬇"
+
+[[bookmarks.default_bookmarks]]
+name = "Documents"
+path = "~/Documents"
+icon = "📄"
+
+[[bookmarks.default_bookmarks]]
+name = "Projects"
+path = "~/projects"
+icon = "⚙"
+
+[bookmarks]
+storage_path = "~/.config/zenith/bookmarks.toml"
+
+# ----------------------------------------------------------------------------
+# [size_cache] — Optional directory size cache (uses `du`)
+# ----------------------------------------------------------------------------
+[size_cache]
+enabled  = true
+path     = "~/.cache/zenith/sizes.json"
+ttl_hours = 24
+use_du   = true
+
+# ----------------------------------------------------------------------------
+# [performance] — Async I/O and rendering
+# ----------------------------------------------------------------------------
+[performance]
+async_scanning  = true
+debounce_ms     = 100        # fsnotify debounce (future)
+max_preview_size = "100MB"
+lazy_load       = true
+
+# ----------------------------------------------------------------------------
+# [experimental] — Features that may change or be removed
+# ----------------------------------------------------------------------------
+[experimental]
+enable_mouse      = false
+enable_animations = false
+animation_fps     = 30
